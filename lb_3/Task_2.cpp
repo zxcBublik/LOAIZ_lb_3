@@ -5,15 +5,27 @@ struct node_queue* last_queue = NULL;
 
 struct node_queue* get_struct_queue(void) {
     struct node_queue* pointer = NULL;
+    struct node_queue* tmp = head_queue;
+    struct node_queue* prev = NULL;
     char s[256];
-
     if ((pointer = (node_queue*)malloc(sizeof(struct node_queue))) == NULL) {
         printf("Ошибка при распределении памяти\n");
         exit(1);
     }
-
     printf("Введите название объекта: \n");
     scanf("%s", s);
+
+    while (tmp) {
+        if (strcmp(s, tmp->inf) == 0) {
+            free(pointer);
+            cout << "Вы ввели элемент, который уже есть в очереди!\n";
+            return NULL;
+        }
+        else {
+            prev = tmp;
+            tmp = tmp->next;
+        }
+    }
     if (*s == 0) {
         printf("Запись не была произведена\n");
         return NULL;

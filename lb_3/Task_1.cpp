@@ -12,10 +12,9 @@ struct node* get_struct(void) {
         printf("Ошибка при распределении памяти\n");
         exit(1);
     }
-
     printf("Введите название объекта: \n");
     scanf("%s", s);
-    if (*s == 0) {
+    if (*s == NULL) {
         printf("Запись не была произведена\n");
         return NULL;
     }
@@ -112,26 +111,26 @@ void del(char* name) {
         prev = struc;
         struc = struc->next;
     }
-
     while (struc) {
         if (strcmp(name, struc->inf) == 0) {
             flag = 1;
-            if (struc->next) {
+            if (prev) {
                 prev->next = struc->next;
                 free(struc);
                 struc = prev->next;
             }
             else {
-                prev->next = NULL;
-                free(struc);
-                return;
+                node* temp = struc;
+                head = struc->next;
+                struc = head;
+                free(temp);
             }
         }
         else {
             prev = struc;
             struc = struc->next;
         }
-    }
+    }  
     if (flag == 0) {
         printf("Элемент не найден\n");
     }
